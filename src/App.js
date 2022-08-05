@@ -1,6 +1,6 @@
 import './styles.css';
-import React, { useRef } from 'react';
-import { Environment, OrbitControls } from '@react-three/drei';
+import React, { useEffect, useRef } from 'react';
+import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
 import { Controls, useControl } from 'react-three-gui';
 import { useFrame } from '@react-three/fiber';
 
@@ -16,10 +16,18 @@ const SpinningCube = () => {
         box.current.rotation.y += speed * 0.01;
     });
 
-    return <mesh ref={box}>
-        <boxGeometry />
-        <meshStandardMaterial color={'#ffffff'} roughness={roughness} metalness={metalness} />
-    </mesh>;
+    const { scene } = useGLTF('model.glb')
+
+    useEffect(() => {
+        scene.traverse((object) => {
+            if (object.isMesh) {
+                object.material.roughness = roughness;
+                object.material.metalness = metalness;
+            }
+        })
+    }, [scene, roughness, metalness]);
+
+    return <primitive ref={box} object={scene} />
 }
 
 const App = () => {
