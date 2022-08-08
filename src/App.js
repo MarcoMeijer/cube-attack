@@ -1,45 +1,76 @@
 import './styles.css';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
-import { Controls, useControl } from 'react-three-gui';
-import { useFrame } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 
-const SpinningCube = () => {
-    const box = useRef();
+export function Model(props) {
+    const lid = useRef();
+    const handleL= useRef();
+    const handleR = useRef();
+    const { nodes, materials } = useGLTF("/chest.glb");
 
-    const roughness = useControl('Roughness', { type: 'number', min: 0, max: 1 });
-    const metalness = useControl('Metalness', { type: 'number', min: 0, max: 1 });
-    const speed = useControl('Speed', { type: 'number', min: 0, max: 10 });
+    const speed = 2;
 
     useFrame(({ clock }) => {
-        box.current.rotation.x += speed * 0.01;
-        box.current.rotation.y += speed * 0.01;
+        lid.current.rotation.x = Math.sin(clock.getElapsedTime() * speed) - 1.0;
+        for (const handle of [handleL, handleR]) {
+            handle.current.rotation.z = Math.sin(clock.getElapsedTime() * 0.8)*0.2;
+        }
     });
 
-    const { scene } = useGLTF('model.glb')
-
-    useEffect(() => {
-        scene.traverse((object) => {
-            if (object.isMesh) {
-                object.material.roughness = roughness;
-                object.material.metalness = metalness;
-            }
-        })
-    }, [scene, roughness, metalness]);
-
-    return <primitive ref={box} object={scene} />
+    return (
+        <group {...props} dispose={null}>
+            <mesh
+                ref={handleL}
+                castShadow
+                receiveShadow
+                geometry={nodes.treasure_chest_handle_left.geometry}
+                material={materials["treasure_chest.005"]}
+                position={[-0.47, 0.29, 0]}
+            />
+            <mesh
+                ref={handleR}
+                castShadow
+                receiveShadow
+                geometry={nodes.treasure_chest_handle_right.geometry}
+                material={materials["treasure_chest.005"]}
+                position={[0.47, 0.29, 0]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.treasure_chest_lock.geometry}
+                material={materials["treasure_chest.005"]}
+                position={[0, 0.42, 0.26]}
+            />
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.treasure_chest_bottom.geometry}
+                material={materials["treasure_chest.005"]}
+                position={[0, 0.02, 0]}
+            />
+            <mesh
+                ref={lid}
+                castShadow
+                receiveShadow
+                geometry={nodes.treasure_chest_lid.geometry}
+                material={materials["treasure_chest.005"]}
+                position={[0, 0.42, -0.26]}
+            />
+        </group>
+    );
 }
+
+useGLTF.preload("/chest.glb");
 
 const App = () => {
     return (
-        <Controls.Provider>
-            <Controls.Canvas>
-                <SpinningCube />
-                <OrbitControls />
-                <Environment background={true} files="/neon_photostudio_2k.hdr" />
-            </Controls.Canvas>
-            <Controls />
-        </Controls.Provider>
+        <Canvas>
+            <Model />
+            <OrbitControls />
+            <Environment background={true} files="/neon_photostudio_2k.hdr" />
+        </Canvas>
     );
 }
 
