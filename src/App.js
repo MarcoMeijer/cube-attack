@@ -1,7 +1,37 @@
 import './styles.css';
 import React, { useRef } from 'react';
-import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
+import { Environment, OrbitControls, useGLTF, useTexture } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
+import * as THREE from 'three'
+
+function Floor() {
+    const [colorMap, normalMap, roughnessMap] = useTexture([
+        '/forrest_ground_01_diff_1k.jpg',
+        '/forrest_ground_01_nor_gl_1k.jpg',
+        '/forrest_ground_01_rough_1k.jpg'
+    ])
+
+    return (
+        <mesh rotation-x={Math.PI * -0.5}>
+            <planeGeometry args={[15, 15]} />
+            <meshStandardMaterial
+                map={colorMap}
+                map-wrapS={THREE.RepeatWrapping}
+                map-wrapT={THREE.RepeatWrapping}
+                map-repeat={[3, 3]}
+                normalMap={normalMap}
+                normalMap-wrapS={THREE.RepeatWrapping}
+                normalMap-wrapT={THREE.RepeatWrapping}
+                normalMap-encoding={THREE.LinearEncoding}
+                normalMapScale={[1, 1]}
+                roughness={1}
+                roughnessMap={roughnessMap}
+                roughnessMap-wrapS={THREE.RepeatWrapping}
+                roughnessMap-wrapT={THREE.RepeatWrapping}
+            />
+        </mesh>
+    )
+}
 
 export function Model(props) {
     const lid = useRef();
@@ -67,6 +97,7 @@ useGLTF.preload("/chest.glb");
 const App = () => {
     return (
         <Canvas>
+            <Floor />
             <Model />
             <OrbitControls />
             <Environment background={true} files="/neon_photostudio_2k.hdr" />
