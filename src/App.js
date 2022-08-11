@@ -92,13 +92,32 @@ export function Model(props) {
     );
 }
 
+
+export function Castle(props) {
+    const { nodes } = useGLTF("/castle.glb");
+    return (
+        <group {...props} dispose={null}>
+            <mesh
+                castShadow
+                receiveShadow
+                geometry={nodes.Cylinder.geometry}
+                material={nodes.Cylinder.material}
+                position={[0, 1.5, 0]}
+            />
+        </group>
+    );
+}
+
 useGLTF.preload("/chest.glb");
+useGLTF.preload("/castle.glb");
+  
 
 const App = () => {
     return (
         <Canvas>
             <Floor />
             <Model />
+            <Castle position={[0,0,-2]}/>
             <OrbitControls />
             <Environment background={true} files="/neon_photostudio_2k.hdr" />
         </Canvas>
