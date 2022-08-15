@@ -2,7 +2,9 @@ import './styles.css';
 import React, { useRef } from 'react';
 import { Environment, OrbitControls, useGLTF, useTexture } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
-import * as THREE from 'three'
+import * as THREE from 'three';
+import { EnemyPool } from './Enemy';
+import { Tower } from './Tower';
 
 function Floor() {
     const [colorMap, normalMap, roughnessMap] = useTexture([
@@ -13,12 +15,12 @@ function Floor() {
 
     return (
         <mesh rotation-x={Math.PI * -0.5}>
-            <planeGeometry args={[15, 15]} />
+            <planeGeometry args={[50, 50]} />
             <meshStandardMaterial
                 map={colorMap}
                 map-wrapS={THREE.RepeatWrapping}
                 map-wrapT={THREE.RepeatWrapping}
-                map-repeat={[3, 3]}
+                map-repeat={[6, 6]}
                 normalMap={normalMap}
                 normalMap-wrapS={THREE.RepeatWrapping}
                 normalMap-wrapT={THREE.RepeatWrapping}
@@ -92,32 +94,23 @@ export function Model(props) {
     );
 }
 
-
-export function Castle(props) {
-    const { nodes } = useGLTF("/castle.glb");
-    return (
-        <group {...props} dispose={null}>
-            <mesh
-                castShadow
-                receiveShadow
-                geometry={nodes.Cylinder.geometry}
-                material={nodes.Cylinder.material}
-                position={[0, 1.5, 0]}
-            />
-        </group>
-    );
-}
-
 useGLTF.preload("/chest.glb");
-useGLTF.preload("/castle.glb");
-  
 
 const App = () => {
     return (
         <Canvas>
             <Floor />
-            <Model />
-            <Castle position={[0,0,-2]}/>
+            {/* <Model /> */}
+            <Tower position={[0,0,-2]}/>
+            <EnemyPool path={[
+                new THREE.Vector3( 0, 0,  0),
+                new THREE.Vector3( 0, 0, 10),
+                new THREE.Vector3(10, 0, 10),
+                new THREE.Vector3(10, 0, 15),
+                new THREE.Vector3( 5, 0, 15),
+                new THREE.Vector3( 5, 0,  0),
+                new THREE.Vector3( 0, 0,  0),
+            ]}/>
             <OrbitControls />
             <Environment background={true} files="/neon_photostudio_2k.hdr" />
         </Canvas>
