@@ -7,7 +7,7 @@ const MAX_PROJECTILES = 10000;
 
 export function ProjectilePool() {
     const mesh = useRef();
-    const { projectiles, enemies, setStore } = useStore();
+    const { projectiles, enemies } = useStore();
 
     const dummy = useMemo(() => new Object3D(), []);
 
@@ -28,7 +28,7 @@ export function ProjectilePool() {
             const { pos } = projectile;
             for (const enemy of enemies) {
                 if (enemy.pos.clone().sub(pos).length() < 0.4) { // todo: don't hardcode the distance
-                    enemies.splice(enemies.indexOf(enemy));
+                    enemies.splice(enemies.indexOf(enemy), 1);
                     return false;
                 }
             }

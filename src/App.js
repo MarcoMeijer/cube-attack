@@ -104,15 +104,7 @@ const App = () => {
             <fog color="#b8bfbe" attach="fog" near={100} far={200} />
             {/* <Model /> */}
             <TowerPool />
-            <EnemyPool path={[
-                new THREE.Vector3( 0, 0,  0),
-                new THREE.Vector3( 0, 0, 10),
-                new THREE.Vector3(10, 0, 10),
-                new THREE.Vector3(10, 0, 15),
-                new THREE.Vector3( 5, 0, 15),
-                new THREE.Vector3( 5, 0,  0),
-                new THREE.Vector3( 0, 0,  0),
-            ]}/>
+            <EnemyPool />
             <ProjectilePool />
             <OrbitControls />
             <Environment background={true} files="/je_gray_park_2k.hdr" />

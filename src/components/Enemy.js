@@ -2,12 +2,13 @@ import { useFrame } from '@react-three/fiber';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Object3D, Vector3 } from 'three';
 import { useStore } from '../hooks/useStore';
+import { movePath } from '../math/enemy';
 
 const MAX_ENEMIES = 1000;
 
-export function EnemyPool({ path }) {
+export function EnemyPool() {
     const mesh = useRef();
-    const { enemies } = useStore();
+    const { path, enemies } = useStore();
 
     const dummy = useMemo(() => new Object3D(), []);
 
@@ -16,7 +17,7 @@ export function EnemyPool({ path }) {
         for (let i=0; i<10; i++) {
             enemies.push({
                 pos: new Vector3().add(path[0]),
-                pathStage: 0,
+                section: 0,
                 speed: 3 - 0.1*i,
             });
         }
@@ -24,19 +25,21 @@ export function EnemyPool({ path }) {
 
     useFrame((state, delta) => {
         enemies.forEach((enemy, i) => {
-            const { pos, pathStage, speed } = enemy;
+            const { pos, section, speed } = enemy;
 
             // if (pathStage === path.length)
             //     return;
             
-            const dir = new Vector3().sub(pos).add(path[pathStage]);
-            const vel = new Vector3().add(dir).normalize().multiplyScalar(delta*speed);
-            if (vel.length() >= dir.length()) {
-                pos.add(dir);
-                enemy.pathStage += 1;
-            } else {
-                pos.add(vel);
-            }
+            // move the enemy along the path
+            const { section: newSection, pos: newPos } = movePath({
+                path,
+                section,
+                speed,
+                delta,
+                start: pos
+            })
+            pos.copy(newPos);
+            enemy.section = newSection;
 
             // apply changes to dummy and to the instanced matrix
             dummy.position.copy(pos);

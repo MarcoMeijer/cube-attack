@@ -3,12 +3,13 @@ import { useGLTF } from '@react-three/drei';
 import { Object3D, Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
 import { useStore } from '../hooks/useStore';
+import { calculateProjectileVelocity } from '../math/projectile';
 
 const MAX_TOWERS = 1000;
 
 export function TowerPool() {
     const mesh = useRef();
-    const { enemies, towers, projectiles } = useStore();
+    const { path, enemies, towers, projectiles } = useStore();
     const { nodes } = useGLTF("/castle.glb");
 
     const dummy = useMemo(() => new Object3D(), []);
@@ -22,7 +23,7 @@ export function TowerPool() {
         });
         towers.push({
             pos: new Vector3(7, 0, 8),
-            fireRate: 0.4,
+            fireRate: 2,
             recharge: 0,
         });
     }, []);
@@ -38,7 +39,12 @@ export function TowerPool() {
                     const pos = tower.pos.clone().add(new Vector3(0, 3, 0));
                     projectiles.push({
                         pos: pos,
-                        vel: enemy.pos.clone().sub(pos).normalize().multiplyScalar(20),
+                        vel: calculateProjectileVelocity({
+                            path,
+                            source: pos,
+                            target: enemy,
+                            speed: 10,
+                        }),
                     });
                 }
                 tower.recharge -= fireRate;
@@ -59,7 +65,7 @@ export function TowerPool() {
             receiveShadow
             geometry={nodes.Cylinder.geometry}
             material={nodes.Cylinder.material}
-            position={[0, 1.5, 0]}
+            position-y={1.5}
             args={[null, null, MAX_TOWERS]}
             ref={mesh}
         />
