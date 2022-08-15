@@ -101,7 +101,7 @@ const App = () => {
     return (
         <Canvas>
             <Floor />
-            <fog color="#ffffff" attach="fog" near={50} far={100} />
+            <fog color="#b8bfbe" attach="fog" near={100} far={200} />
             {/* <Model /> */}
             <TowerPool />
             <EnemyPool path={[
@@ -115,7 +115,7 @@ const App = () => {
             ]}/>
             <ProjectilePool />
             <OrbitControls />
-            <Environment background={true} files="/neon_photostudio_2k.hdr" />
+            <Environment background={true} files="/je_gray_park_2k.hdr" />
         </Canvas>
     );
 }
