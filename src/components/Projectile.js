@@ -28,7 +28,10 @@ export function ProjectilePool() {
             const { pos } = projectile;
             for (const enemy of enemies) {
                 if (enemy.pos.clone().sub(pos).length() < 0.4) { // todo: don't hardcode the distance
-                    enemies.splice(enemies.indexOf(enemy), 1);
+                    enemy.damage(5);
+                    if (enemy.health <= 0) {
+                        enemies.splice(enemies.indexOf(enemy), 1);
+                    }
                     return false;
                 }
             }

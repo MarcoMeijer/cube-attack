@@ -34,16 +34,29 @@ export function TowerPool() {
             tower.recharge += delta;
 
             while (tower.recharge > fireRate) {
-                if (enemies.length) {
-                    const enemy = enemies[0];
-                    const pos = tower.pos.clone().add(new Vector3(0, 3, 0));
+                const pos = tower.pos.clone().add(new Vector3(0, 3, 0));
+                const radius = 7;
+                const speed = 10;
+                const targets = enemies.filter((enemy) => enemy.futureHealth > 0
+                    && (calculateProjectileVelocity({
+                        path,
+                        speed,
+                        radius,
+                        source: pos,
+                        target: enemy,
+                    }) !== null)
+                );
+
+                if (targets.length) {
+                    const enemy = targets[0];
                     projectiles.push({
                         pos: pos,
                         vel: calculateProjectileVelocity({
                             path,
+                            speed,
+                            radius,
                             source: pos,
                             target: enemy,
-                            speed: 10,
                         }),
                     });
                 }
