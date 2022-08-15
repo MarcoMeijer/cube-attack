@@ -4,7 +4,7 @@ import { Environment, OrbitControls, useGLTF, useTexture } from '@react-three/dr
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { EnemyPool } from './Enemy';
-import { Tower } from './Tower';
+import { TowerPool } from './Tower';
 
 function Floor() {
     const [colorMap, normalMap, roughnessMap] = useTexture([
@@ -101,7 +101,7 @@ const App = () => {
         <Canvas>
             <Floor />
             {/* <Model /> */}
-            <Tower position={[0,0,-2]}/>
+            <TowerPool />
             <EnemyPool path={[
                 new THREE.Vector3( 0, 0,  0),
                 new THREE.Vector3( 0, 0, 10),

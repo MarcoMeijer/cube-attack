@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Object3D, Vector3 } from 'three';
 import { useStore } from './hooks/useStore';
 
@@ -7,20 +7,19 @@ const MAX_ENEMIES = 1000;
 
 export function EnemyPool({ path }) {
     const mesh = useRef();
-    const store = useStore();
+    const { enemies } = useStore();
 
     const dummy = useMemo(() => new Object3D(), []);
-    const enemies = useMemo(() => {
-        const res = [];
+
+    // initial enemies
+    useEffect(() => {
         for (let i=0; i<10; i++) {
-            res.push({
+            enemies.push({
                 pos: new Vector3().add(path[0]),
                 pathStage: 0,
                 speed: 2 + 0.1*i,
             });
         }
-        store.enemies.current = res;
-        return res;
     }, []);
 
     useFrame((state, delta) => {

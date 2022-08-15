@@ -1,9 +1,8 @@
-import { createRef } from "react";
 
 const createStore = () => {
     const state = {
-        enemies: createRef(),
-        towers: createRef(),
+        enemies: [],
+        towers: [],
     };
 
     const setStore = (props) => {
