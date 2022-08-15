@@ -14,20 +14,6 @@ export function TowerPool() {
 
     const dummy = useMemo(() => new Object3D(), []);
 
-    // initial towers
-    useEffect(() => {
-        towers.push({
-            pos: new Vector3(3, 0, 3),
-            fireRate: 1,
-            recharge: 0,
-        });
-        towers.push({
-            pos: new Vector3(7, 0, 8),
-            fireRate: 2,
-            recharge: 0,
-        });
-    }, []);
-
     useFrame((state, delta) => {
         towers.forEach((tower, i) => {
             const { fireRate } = tower;

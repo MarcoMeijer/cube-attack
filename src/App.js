@@ -1,21 +1,36 @@
 import './styles.css';
 import React, { useRef } from 'react';
 import { Environment, OrbitControls, useGLTF, useTexture } from '@react-three/drei';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { EnemyPool } from './components/Enemy';
 import { TowerPool } from './components/Tower';
 import { ProjectilePool } from './components/Projectile';
+import { useStore } from './hooks/useStore';
 
 function Floor() {
     const [colorMap, normalMap, roughnessMap] = useTexture([
         '/forrest_ground_01_diff_1k.jpg',
         '/forrest_ground_01_nor_gl_1k.jpg',
         '/forrest_ground_01_rough_1k.jpg'
-    ])
+    ]);
+
+    useThree(({camera}) => {
+        camera.rotation.set(-1.2, 0, 0);
+        camera.position.set(5, 16, 12);
+    });
+
+    const { towers } = useStore();
 
     return (
-        <mesh rotation-x={Math.PI * -0.5}>
+        <mesh rotation-x={Math.PI * -0.5} onClick={e => {
+            const pos = e.intersections[0].point;
+            towers.push({
+                pos,
+                fireRate: 0.4,
+                recharge: 0,
+            });
+        }}>
             <planeGeometry args={[500, 500]} />
             <meshStandardMaterial
                 map={colorMap}
@@ -102,11 +117,9 @@ const App = () => {
         <Canvas>
             <Floor />
             <fog color="#b8bfbe" attach="fog" near={100} far={200} />
-            {/* <Model /> */}
             <TowerPool />
             <EnemyPool />
             <ProjectilePool />
-            <OrbitControls />
             <Environment background={true} files="/je_gray_park_2k.hdr" />
         </Canvas>
     );
