@@ -3,8 +3,9 @@ import React, { useRef } from 'react';
 import { Environment, OrbitControls, useGLTF, useTexture } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { EnemyPool } from './Enemy';
-import { TowerPool } from './Tower';
+import { EnemyPool } from './components/Enemy';
+import { TowerPool } from './components/Tower';
+import { ProjectilePool } from './components/Projectile';
 
 function Floor() {
     const [colorMap, normalMap, roughnessMap] = useTexture([
@@ -15,12 +16,12 @@ function Floor() {
 
     return (
         <mesh rotation-x={Math.PI * -0.5}>
-            <planeGeometry args={[50, 50]} />
+            <planeGeometry args={[500, 500]} />
             <meshStandardMaterial
                 map={colorMap}
                 map-wrapS={THREE.RepeatWrapping}
                 map-wrapT={THREE.RepeatWrapping}
-                map-repeat={[6, 6]}
+                map-repeat={[60, 60]}
                 normalMap={normalMap}
                 normalMap-wrapS={THREE.RepeatWrapping}
                 normalMap-wrapT={THREE.RepeatWrapping}
@@ -100,6 +101,7 @@ const App = () => {
     return (
         <Canvas>
             <Floor />
+            <fog color="#ffffff" attach="fog" near={50} far={100} />
             {/* <Model /> */}
             <TowerPool />
             <EnemyPool path={[
@@ -111,6 +113,7 @@ const App = () => {
                 new THREE.Vector3( 5, 0,  0),
                 new THREE.Vector3( 0, 0,  0),
             ]}/>
+            <ProjectilePool />
             <OrbitControls />
             <Environment background={true} files="/neon_photostudio_2k.hdr" />
         </Canvas>

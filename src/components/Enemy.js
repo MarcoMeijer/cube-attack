@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber';
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Object3D, Vector3 } from 'three';
-import { useStore } from './hooks/useStore';
+import { useStore } from '../hooks/useStore';
 
 const MAX_ENEMIES = 1000;
 
@@ -17,7 +17,7 @@ export function EnemyPool({ path }) {
             enemies.push({
                 pos: new Vector3().add(path[0]),
                 pathStage: 0,
-                speed: 2 + 0.1*i,
+                speed: 3 - 0.1*i,
             });
         }
     }, []);
@@ -26,8 +26,8 @@ export function EnemyPool({ path }) {
         enemies.forEach((enemy, i) => {
             const { pos, pathStage, speed } = enemy;
 
-            if (pathStage === path.length)
-                return;
+            // if (pathStage === path.length)
+            //     return;
             
             const dir = new Vector3().sub(pos).add(path[pathStage]);
             const vel = new Vector3().add(dir).normalize().multiplyScalar(delta*speed);
@@ -39,11 +39,12 @@ export function EnemyPool({ path }) {
             }
 
             // apply changes to dummy and to the instanced matrix
-            dummy.position.copy(enemy.pos);
+            dummy.position.copy(pos);
             dummy.updateMatrix();
             mesh.current.setMatrixAt(i, dummy.matrix);
         });
 
+        mesh.current.count = enemies.length;
         mesh.current.instanceMatrix.needsUpdate = true;
     });
 

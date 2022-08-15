@@ -3,6 +3,7 @@ const createStore = () => {
     const state = {
         enemies: [],
         towers: [],
+        projectiles: [],
     };
 
     const setStore = (props) => {
