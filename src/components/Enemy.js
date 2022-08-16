@@ -45,6 +45,7 @@ export function EnemyPool() {
         for (let i=0; i<10; i++) {
             const enemy = new Enemy();
             enemy.speed -= 0.1*i;
+            enemy.pos = path[0].clone();
             enemies.push(enemy);
         }
     }, [enemies]);
