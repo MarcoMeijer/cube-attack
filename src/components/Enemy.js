@@ -47,7 +47,7 @@ export function EnemyPool() {
             enemy.speed -= 0.1*i;
             enemies.push(enemy);
         }
-    }, []);
+    }, [enemies]);
 
     useFrame((state, delta) => {
         enemies.forEach((enemy, i) => {

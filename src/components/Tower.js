@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { Object3D, Vector3 } from 'three';
 import { useFrame } from '@react-three/fiber';
@@ -60,14 +60,14 @@ export function TowerPool() {
 
     return (
         <instancedMesh
-            castShadow
-            receiveShadow
             geometry={nodes.Cylinder.geometry}
             material={nodes.Cylinder.material}
             position-y={1.5}
             args={[null, null, MAX_TOWERS]}
             ref={mesh}
-        />
+        >
+            <meshStandardMaterial color={0xffff00}/>
+        </instancedMesh>
     );
 }
 

@@ -1,29 +1,31 @@
 import './styles.css';
 import React, { useRef } from 'react';
-import { Environment, OrbitControls, useGLTF, useTexture } from '@react-three/drei';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Environment, OrbitControls, Stars, useGLTF, useTexture } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { EnemyPool } from './components/Enemy';
 import { TowerPool } from './components/Tower';
 import { ProjectilePool } from './components/Projectile';
 import { useStore } from './hooks/useStore';
+import { Effects } from './components/Effects';
+import { AmbientLight } from 'three';
 
 function Floor() {
-    const [colorMap, normalMap, roughnessMap] = useTexture([
-        '/forrest_ground_01_diff_1k.jpg',
-        '/forrest_ground_01_nor_gl_1k.jpg',
-        '/forrest_ground_01_rough_1k.jpg'
+    const [colorMap] = useTexture([
+        '/floor.png'
+        // '/forrest_ground_01_nor_gl_1k.jpg',
+        // '/forrest_ground_01_rough_1k.jpg'
     ]);
 
-    useThree(({camera}) => {
-        camera.rotation.set(-1.2, 0, 0);
-        camera.position.set(5, 16, 12);
-    });
+    // useThree(({camera}) => {
+    //     camera.rotation.set(-1.2, 0, 0);
+    //     camera.position.set(5, 16, 12);
+    // });
 
     const { towers } = useStore();
 
     return (
-        <mesh rotation-x={Math.PI * -0.5} onClick={e => {
+        <mesh rotation-x={Math.PI * -0.5} onContextMenu={e => {
             const pos = e.intersections[0].point;
             towers.push({
                 pos,
@@ -31,21 +33,12 @@ function Floor() {
                 recharge: 0,
             });
         }}>
-            <planeGeometry args={[500, 500]} />
+            <planeGeometry args={[17, 17]} />
             <meshStandardMaterial
                 map={colorMap}
                 map-wrapS={THREE.RepeatWrapping}
                 map-wrapT={THREE.RepeatWrapping}
-                map-repeat={[60, 60]}
-                normalMap={normalMap}
-                normalMap-wrapS={THREE.RepeatWrapping}
-                normalMap-wrapT={THREE.RepeatWrapping}
-                normalMap-encoding={THREE.LinearEncoding}
-                normalMapScale={[1, 1]}
-                roughness={1}
-                roughnessMap={roughnessMap}
-                roughnessMap-wrapS={THREE.RepeatWrapping}
-                roughnessMap-wrapT={THREE.RepeatWrapping}
+                map-repeat={[17, 17]}
             />
         </mesh>
     )
@@ -114,13 +107,17 @@ useGLTF.preload("/chest.glb");
 
 const App = () => {
     return (
-        <Canvas>
+        <Canvas alpha={false} mode="concurrent">
             <Floor />
             <fog color="#b8bfbe" attach="fog" near={100} far={200} />
             <TowerPool />
             <EnemyPool />
             <ProjectilePool />
-            <Environment background={true} files="/je_gray_park_2k.hdr" />
+            <OrbitControls enablePan={false}/>
+            <Stars radius={100} depth={50} count={5000} factor={8} saturation={1} fade speed={2} />
+            <Effects />
+            <ambientLight intensity={1}/>
+            {/* <Environment files="/je_gray_park_2k.hdr" /> */}
         </Canvas>
     );
 }
