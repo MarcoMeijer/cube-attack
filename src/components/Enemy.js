@@ -53,8 +53,8 @@ export function EnemyPool() {
         enemies.forEach((enemy, i) => {
             const { pos, section, speed } = enemy;
 
-            // if (pathStage === path.length)
-            //     return;
+            if (section === path.length)
+                return;
             
             // move the enemy along the path
             const { section: newSection, pos: newPos } = movePath({

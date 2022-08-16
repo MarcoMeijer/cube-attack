@@ -1,48 +1,12 @@
 import './styles.css';
 import React, { useRef } from 'react';
-import { Environment, OrbitControls, Stars, useGLTF, useTexture } from '@react-three/drei';
+import { OrbitControls, Stars, useGLTF } from '@react-three/drei';
 import { Canvas, useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
 import { EnemyPool } from './components/Enemy';
 import { TowerPool } from './components/Tower';
 import { ProjectilePool } from './components/Projectile';
-import { useStore } from './hooks/useStore';
 import { Effects } from './components/Effects';
-import { AmbientLight } from 'three';
-
-function Floor() {
-    const [colorMap] = useTexture([
-        '/floor.png'
-        // '/forrest_ground_01_nor_gl_1k.jpg',
-        // '/forrest_ground_01_rough_1k.jpg'
-    ]);
-
-    // useThree(({camera}) => {
-    //     camera.rotation.set(-1.2, 0, 0);
-    //     camera.position.set(5, 16, 12);
-    // });
-
-    const { towers } = useStore();
-
-    return (
-        <mesh rotation-x={Math.PI * -0.5} onContextMenu={e => {
-            const pos = e.intersections[0].point;
-            towers.push({
-                pos,
-                fireRate: 0.4,
-                recharge: 0,
-            });
-        }}>
-            <planeGeometry args={[17, 17]} />
-            <meshStandardMaterial
-                map={colorMap}
-                map-wrapS={THREE.RepeatWrapping}
-                map-wrapT={THREE.RepeatWrapping}
-                map-repeat={[17, 17]}
-            />
-        </mesh>
-    )
-}
+import { Floor } from './components/Floor';
 
 export function Model(props) {
     const lid = useRef();
@@ -107,13 +71,13 @@ useGLTF.preload("/chest.glb");
 
 const App = () => {
     return (
-        <Canvas alpha={false} mode="concurrent">
+        <Canvas mode="concurrent" camera={{ position: [8.5, 10, 20]}}>
             <Floor />
             <fog color="#b8bfbe" attach="fog" near={100} far={200} />
             <TowerPool />
             <EnemyPool />
             <ProjectilePool />
-            <OrbitControls enablePan={false}/>
+            <OrbitControls enablePan={false} target-x={8.5} target-z={8.5}/>
             <Stars radius={100} depth={50} count={5000} factor={8} saturation={1} fade speed={2} />
             <Effects />
             <ambientLight intensity={1}/>
