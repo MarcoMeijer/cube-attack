@@ -7,6 +7,7 @@ import { TowerPool } from './components/Tower';
 import { ProjectilePool } from './components/Projectile';
 import { Effects } from './components/Effects';
 import { Floor } from './components/Floor';
+import { Wave } from './components/Wave';
 
 export function Model(props) {
     const lid = useRef();
@@ -76,6 +77,7 @@ const App = () => {
             <fog color="#b8bfbe" attach="fog" near={100} far={200} />
             <TowerPool />
             <EnemyPool />
+            <Wave />
             <ProjectilePool />
             <OrbitControls enablePan={false} target-x={8.5} target-z={8.5}/>
             <Stars radius={100} depth={50} count={5000} factor={8} saturation={1} fade speed={2} />

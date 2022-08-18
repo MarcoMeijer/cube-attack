@@ -4,7 +4,7 @@ import { Object3D, Vector3 } from 'three';
 import { useStore } from '../hooks/useStore';
 import { movePath } from '../math/enemy';
 
-const MAX_ENEMIES = 1000;
+const MAX_ENEMIES = 10000;
 
 export class Enemy {
     constructor() {
@@ -39,16 +39,6 @@ export function EnemyPool() {
     const { path, enemies } = useStore();
 
     const dummy = useMemo(() => new Object3D(), []);
-
-    // initial enemies
-    useEffect(() => {
-        for (let i=0; i<10; i++) {
-            const enemy = new Enemy();
-            enemy.speed -= 0.1*i;
-            enemy.pos = path[0].clone();
-            enemies.push(enemy);
-        }
-    }, [enemies]);
 
     useFrame((state, delta) => {
         enemies.forEach((enemy, i) => {
