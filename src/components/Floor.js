@@ -75,6 +75,8 @@ export const Floor = () => {
                 char={" "}
                 onContextMenu={e => {
                     const pos = e.intersections[0].point;
+                    pos.x = Math.round(pos.x);
+                    pos.z = Math.round(pos.z);
                     towers.push({
                         pos,
                         fireRate: 0.4,
