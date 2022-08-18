@@ -1,6 +1,6 @@
 import './styles/index.css';
 import React, { useEffect, useState } from 'react';
-import { OrbitControls, Stars } from '@react-three/drei';
+import { Environment, OrbitControls, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { EnemyPool } from './components/Enemy';
 import { TowerPool } from './components/Tower';
@@ -44,7 +44,8 @@ const App = () => {
                     <OrbitControls enablePan={false} target-x={8.5} target-z={8.5}/>
                     <Stars radius={100} depth={50} count={5000} factor={8} saturation={1} fade speed={2} />
                     <Effects />
-                    <ambientLight intensity={1}/>
+                    <ambientLight intensity={2}/>
+                    <Environment background={true} files="/Milkyway_small.hdr" />
                 </StoreContext.Provider>
             </Canvas>
             <Hud />
