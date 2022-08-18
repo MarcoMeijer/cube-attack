@@ -1,5 +1,5 @@
 import { useFrame } from '@react-three/fiber';
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { Color, Object3D, Vector3 } from 'three';
 import { useStore } from '../hooks/useStore';
 import { movePath } from '../math/enemy';

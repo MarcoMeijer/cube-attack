@@ -7,7 +7,7 @@ const MAX_PROJECTILES = 10000;
 
 export function ProjectilePool() {
     const mesh = useRef();
-    const { projectiles, enemies } = useStore();
+    let { projectiles, enemies, money, setStore } = useStore();
 
     const dummy = useMemo(() => new Object3D(), []);
 
@@ -31,6 +31,7 @@ export function ProjectilePool() {
                     enemy.damage(1);
                     if (enemy.health <= 0) {
                         enemies.splice(enemies.indexOf(enemy), 1);
+                        money += enemy.money;
                         for (const child of enemy.children) {
                             enemies.push(child(enemy));
                         }
@@ -42,6 +43,8 @@ export function ProjectilePool() {
         });
         projectiles.length = 0;
         projectiles.push(...newProjectiles);
+
+        setStore(() => ({money}));
 
         mesh.current.count = projectiles.length;
         mesh.current.instanceMatrix.needsUpdate = true;

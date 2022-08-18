@@ -1,5 +1,5 @@
 import './styles/index.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Environment, OrbitControls, Stars } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { EnemyPool } from './components/Enemy';

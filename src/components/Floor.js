@@ -7,7 +7,7 @@ import { Object3D, Vector3 } from "three";
 const MAP_WIDTH = 17;
 const MAP_HEIGHT = 17;
 
-const Tiles = ({ colorMap, grid, char, ...props }) => {
+const Tiles = ({ colorMap, normalMap, metalMap, grid, char, ...props }) => {
     const mesh = useRef();
 
     const dummy = useMemo(() => new Object3D(), []);
@@ -35,13 +35,20 @@ const Tiles = ({ colorMap, grid, char, ...props }) => {
             map-wrapS={THREE.RepeatWrapping}
             map-wrapT={THREE.RepeatWrapping}
             map-repeat={[1, 1]}
+            roughness={metalMap ? 0.08 : 1}
+            metalness={metalMap ? 1 : 0}
+            metalnessMap={metalMap}
+            normalMap={normalMap}
+            normalMapScale={[1, 1]}
         />
     </instancedMesh>;
 }
 
 export const Floor = () => {
-    const [floor, path] = useTexture([
+    const [floor, floorNormal, floorMetal, path] = useTexture([
         '/floor.png',
+        '/floor-norm.png',
+        '/floor-metal.png',
         '/path.png',
     ]);
 
@@ -71,6 +78,8 @@ export const Floor = () => {
         <>
             <Tiles
                 colorMap={floor}
+                normalMap={floorNormal}
+                metalMap={floorMetal}
                 grid={grid}
                 char={" "}
                 onContextMenu={e => {
