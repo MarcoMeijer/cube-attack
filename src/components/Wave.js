@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { useStore } from "../hooks/useStore";
-import { Enemy } from "./Enemy";
+import { EnemyOne, EnemyThree, EnemyTwo } from "./Enemy";
 
 export const Wave = () => {
     const { path, enemies } = useStore();
@@ -14,7 +14,7 @@ export const Wave = () => {
         const s = state.current;
         s.recharge += delta;
         while (s.recharge > s.speed) {
-            const enemy = new Enemy();
+            const enemy = EnemyThree();
             enemy.pos = path[0].clone();
             enemies.push(enemy);
             s.recharge -= s.speed;

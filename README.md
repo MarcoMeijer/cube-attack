@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+# Cube attack
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Cube attack is a simple tower defense game.
 
-## Available Scripts
+## Art style
 
-In the project directory, you can run:
+I decided I would not use models and textures from the internet.
+It would be hard to make this games using those models and textures, and make the game look consistent.
+Because I need a lot of models for the towers and enemies.
+So I dicided that I would need to create them myself,
+and because I am not that good at 3d modeling I gave the game a simplistic art style.
+Before I wanted to do a medievel theme, but that is too hard,
+so I dicided on a futuristic/digital theme because it would be easier to create models.
+And another benefit is that I can add a bloom effect which makes it look much better without much effort.
+The models might not be that great, but at least the game looks consistent.
 
-### `npm start`
+## Optimizing models
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+It was not needed to optimize models because they are all low poly, and most of them don't have a texture.
+The floor is the only thing with a (PBR) texture, and it has a really small image size.
+I decided to use png instead of jpg because if I made it a jpg it would have looked worse,
+and because the image size is so small the texture is already less then a kilobyte so it makes no sense to optimize that.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Shadows
 
-### `npm test`
+Because there can be many enemies and bullets, I decided that those would not be able to cast shadows.
+However, there is a limit on how many towers you can place so those will cast shadows.
+The floor and towers are the only things that receive shadows.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Drei
 
-### `npm run build`
+From drei I used the stars components, which adds a blinking shader-based starfield to the scene.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Code inspiration
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+I used the game [cuberun](https://github.com/akarlsten/cuberun) as an inspiration for my code (and also a bit of the art style).
+I have coded 3D games before, and also websites using react.
+But I had never used react three fiber to create a game before,
+and I was not sure how such a project would be structured.
+Because using this xml like syntax to create a game is quite a new concept for me.
+So this project was a good reference point for me.
