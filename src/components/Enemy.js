@@ -20,7 +20,8 @@ export class Enemy {
         this.health = 1;
         this.maxHealth = 1;
         this.futureHealth = 1;
-        this.color = new Color(0.3, 0.3, 2);
+        this.money = 1;
+        this.color = new Color(0.4, 0.4, 2.3);
         this.children = [];
     }
 
