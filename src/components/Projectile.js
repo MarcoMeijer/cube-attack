@@ -49,8 +49,8 @@ export function ProjectilePool() {
 
     return (
         <instancedMesh ref={mesh} args={[null, null, MAX_PROJECTILES]} position-y={0.3}>
-            <sphereGeometry args={[0.1]}/>
-            <meshStandardMaterial color={0xff00ff}/>
+            <sphereGeometry args={[0.05]}/>
+            <meshStandardMaterial color={0xffffff}/>
         </instancedMesh>
     );
 }
