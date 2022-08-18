@@ -21,7 +21,7 @@ export function TowerPool() {
 
             while (tower.recharge > fireRate) {
                 const pos = tower.pos.clone().add(new Vector3(0, 1.2, 0));
-                const radius = 7;
+                const radius = 4;
                 const speed = 10;
                 const targets = enemies.filter((enemy) => enemy.futureHealth > 0
                     && (calculateProjectileVelocity({
@@ -65,7 +65,7 @@ export function TowerPool() {
             args={[null, null, MAX_TOWERS]}
             ref={mesh}
         >
-            <meshStandardMaterial color={0xcccc00}/>
+            <meshStandardMaterial color={0x992299}/>
         </instancedMesh>
     );
 }
