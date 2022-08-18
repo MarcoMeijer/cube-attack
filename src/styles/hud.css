@@ -16,16 +16,19 @@
 
 .bottomRight {
     position: absolute;
+    display: flex;
+    justify-content: flex-end;
     text-shadow: 0 0 40px #ff9cc3;
     bottom: 3vh;
     right: 4vh;
     transform: skew(0deg, 6deg);
-    width: 300px;
+    width: 500px;
     margin: 0;
 }
 
 
 .wave {
+    display: flex;
     color: #fff;
     font-size: 3rem;
     font-weight: 500;

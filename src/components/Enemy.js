@@ -23,6 +23,7 @@ export class Enemy {
         this.money = 1;
         this.color = new Color(0.4, 0.4, 2.3);
         this.children = [];
+        this.traveled = 0;
     }
 
     damage(amount) {
@@ -92,6 +93,7 @@ export function EnemyPool() {
             })
             pos.copy(newPos);
             enemy.section = newSection;
+            enemy.traveled += speed*delta;
 
             // apply changes to dummy and to the instanced matrix
             dummy.position.copy(pos);
@@ -101,6 +103,8 @@ export function EnemyPool() {
             enemy.color.toArray(colorArray, i*3);
             return true;
         });
+        newEnemies.sort((a, b) => a.traveled < b.traveled);
+
         enemies.length = 0;
         enemies.push(...newEnemies);
 

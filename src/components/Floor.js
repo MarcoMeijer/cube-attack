@@ -72,7 +72,7 @@ export const Floor = () => {
         "                 ",
     ];
 
-    const { towers } = useStore();
+    const { towers, money, setStore } = useStore();
 
     return (
         <>
@@ -86,11 +86,27 @@ export const Floor = () => {
                     const pos = e.intersections[0].point;
                     pos.x = Math.round(pos.x);
                     pos.z = Math.round(pos.z);
-                    towers.push({
-                        pos,
-                        fireRate: 0.4,
-                        recharge: 0,
-                    });
+
+                    let empty = true;
+                    for (const tower of towers) {
+                        if (tower.pos.x === pos.x && tower.pos.z === pos.z) {
+                            empty = false;
+                        }
+                    }
+                    
+                    if (empty) {
+                        setStore(({ money }) => {
+                            if (money >= 100) {
+                                towers.push({
+                                    pos,
+                                    fireRate: 0.4,
+                                    recharge: 0,
+                                });
+                                return {money: money - 100};
+                            }
+                            return {};
+                        });
+                    }
                 }}
             />
             <Tiles colorMap={path} grid={grid} char={"x"}/>

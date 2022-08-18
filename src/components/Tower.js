@@ -35,8 +35,10 @@ export function TowerPool() {
 
                 if (targets.length) {
                     const enemy = targets[0];
+                    enemy.futureDamage(1);
                     projectiles.push({
                         pos: pos,
+                        target: enemy,
                         vel: calculateProjectileVelocity({
                             path,
                             speed,

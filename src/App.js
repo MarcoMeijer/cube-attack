@@ -44,8 +44,8 @@ const App = () => {
                     <OrbitControls enablePan={false} target-x={8.5} target-z={8.5}/>
                     <Stars radius={100} depth={50} count={5000} factor={8} saturation={1} fade speed={2} />
                     <Effects />
-                    <ambientLight intensity={1}/>
-                    <directionalLight position={[10,18,6]} target-position={[0,0,0]} intensity={1} />
+                    <ambientLight intensity={0.8}/>
+                    <directionalLight position={[10,18,6]} target-position={[0,0,0]} intensity={1.2} />
                     <Environment background={true} files="/Milkyway_small.hdr" />
                 </StoreContext.Provider>
             </Canvas>
