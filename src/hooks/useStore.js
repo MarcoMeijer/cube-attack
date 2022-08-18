@@ -6,6 +6,9 @@ export const initialState = {
     towers: [],
     projectiles: [],
     wave: 0,
+    health: 100,
+    money: 200,
+    gameOver: false,
     path: [
         new Vector3(   8, 0,-0.5),
         new Vector3(   8, 0,   2),

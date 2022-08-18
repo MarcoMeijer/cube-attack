@@ -66,18 +66,20 @@ export const EnemyThree = (parent) => {
 
 export function EnemyPool() {
     const mesh = useRef();
-    const { path, enemies } = useStore();
+    let { health, path, enemies, setStore } = useStore();
 
     const colorArray = useMemo(() => Float32Array.from(new Array(MAX_ENEMIES*3).fill().flatMap((_, i) => new Color(0.3,2,0.4).toArray())), [])
 
     const dummy = useMemo(() => new Object3D(), []);
 
     useFrame((state, delta) => {
-        enemies.forEach((enemy, i) => {
+        const newEnemies = enemies.filter((enemy, i) => {
             const { pos, scale, section, speed } = enemy;
 
-            if (section === path.length)
-                return;
+            if (section === path.length) {
+                health--;
+                return false;
+            }
             
             // move the enemy along the path
             const { section: newSection, pos: newPos } = movePath({
@@ -96,7 +98,16 @@ export function EnemyPool() {
             dummy.updateMatrix();
             mesh.current.setMatrixAt(i, dummy.matrix);
             enemy.color.toArray(colorArray, i*3);
+            return true;
         });
+        enemies.length = 0;
+        enemies.push(...newEnemies);
+
+        if (health <= 0) {
+            health = 0;
+            setStore(() => ({gameOver: true}));
+        }
+        setStore(() => ({health}));
 
         mesh.current.count = enemies.length;
         mesh.current.instanceMatrix.needsUpdate = true;
