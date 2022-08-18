@@ -65,7 +65,7 @@ export function TowerPool() {
             args={[null, null, MAX_TOWERS]}
             ref={mesh}
         >
-            <meshStandardMaterial color={0x992299}/>
+            <meshBasicMaterial color={0x992299}/>
         </instancedMesh>
     );
 }
