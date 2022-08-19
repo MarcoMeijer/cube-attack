@@ -18,7 +18,7 @@ export function ProjectilePool() {
             pos.add(vel.clone().multiplyScalar(delta));
 
             // apply changes to dummy and to the instanced matrix
-            dummy.position.copy(pos);
+            dummy.position.copy(pos.clone());
             dummy.updateMatrix();
             mesh.current.setMatrixAt(i, dummy.matrix);
         });
@@ -26,19 +26,36 @@ export function ProjectilePool() {
         // check if it hit an enemy
         const newProjectiles = projectiles.filter((projectile, i) => {
             const { pos, target } = projectile;
-            if (target.pos.clone().sub(pos).length() < 0.4) { // todo: don't hardcode the distance
-                target.promisedDamage(1);
-                if (target.health <= 0) {
-                    enemies.splice(enemies.indexOf(target), 1);
-                    setStore(({money}) => {
-                        return {money: money + target.money};
-                    });
-                    for (const child of target.children) {
-                        enemies.push(child(target));
+
+            const tryHitEnemy = (enemy) => {
+                if (enemy.pos.clone().sub(pos).length() < 0.4) { // todo: don't hardcode the distance
+                    enemy.promisedDamage(1);
+                    if (enemy.health <= 0) {
+                        enemies.splice(enemies.indexOf(enemy), 1);
+                        setStore(({money}) => {
+                            return {money: money + enemy.money};
+                        });
+                        for (const child of enemy.children) {
+                            enemies.push(child(enemy));
+                        }
                     }
+                    return true;
                 }
                 return false;
             }
+
+            if (target === undefined) {
+                for (const enemy of enemies) {
+                    if (tryHitEnemy(enemy)) {
+                        return false;
+                    }
+                }
+            } else {
+                if (tryHitEnemy(target)) {
+                    return false;
+                }
+            }
+
             return pos.y > -0.2;
         });
         projectiles.length = 0;

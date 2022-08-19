@@ -4,6 +4,32 @@
     src: local('zorque'), url(../../public/zorque.otf) format('opentype');
 }
 
+.top {
+    position: absolute;
+    text-shadow: 0 0 40px #ff9cc3;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin: 0;
+}
+
+.top img {
+    width: 80px;
+    height: 80px;
+    margin: 5px;
+    border-radius: 10px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    -webkit-user-drag: none;
+    opacity: 0.6;
+}
+
+.top .selected {
+    opacity: 1;
+}
+
 .bottomLeft {
     position: absolute;
     text-shadow: 0 0 40px #ff9cc3;

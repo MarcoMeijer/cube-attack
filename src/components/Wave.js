@@ -7,6 +7,10 @@ const waves = [
     [[EnemyOne, 5, 0.6]], // wave 1
     [[EnemyOne, 10, 0.4]], // wave 2
     [[EnemyOne, 10, 0.4], [EnemyTwo, 2, 2]], // wave 3
+    [[EnemyOne, 40, 0.2]], // wave 4
+    [[EnemyOne, 20, 0.2], [EnemyTwo, 10, 0.5]], // wave 5
+    [[EnemyTwo, 20, 0.5]], // wave 6
+    [[EnemyThree, 10, 0.7]], // wave 6
     [[EnemyThree, 100, 0.02]] // wave 4
 ];
 
@@ -16,7 +20,7 @@ export const Wave = () => {
     const state = useRef({
         group: 0,
         enemy: 0,
-        betweenWave: 5,
+        betweenWave: 7,
         started: true,
         recharge: 0,
     });

@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import { Vector3 } from "three";
+import { AreaTower, Castle } from "../components/Tower";
 
 export const initialState = {
     enemies: [],
@@ -9,6 +10,7 @@ export const initialState = {
     health: 100,
     money: 200,
     gameOver: false,
+    selectedTower: Castle,
     path: [
         new Vector3(   8, 0,-0.5),
         new Vector3(   8, 0,   2),

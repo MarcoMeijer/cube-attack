@@ -28,7 +28,12 @@ const Tiles = ({ colorMap, normalMap, metalMap, grid, char, ...props }) => {
         }
     }, [mesh, grid, char, dummy]);
 
-    return <instancedMesh rotation-x={Math.PI * -0.5} ref={mesh} args={[null, null, MAP_WIDTH*MAP_HEIGHT]} {...props} >
+    return <instancedMesh
+        rotation-x={Math.PI * -0.5}
+        ref={mesh}
+        args={[null, null, MAP_WIDTH*MAP_HEIGHT]}
+        {...props}
+    >
         <planeGeometry args={[1, 1]} />
         <meshStandardMaterial
             map={colorMap}
@@ -72,7 +77,7 @@ export const Floor = () => {
         "                 ",
     ];
 
-    const { towers, money, setStore } = useStore();
+    const { towers, setStore, selectedTower } = useStore();
 
     return (
         <>
@@ -97,11 +102,7 @@ export const Floor = () => {
                     if (empty) {
                         setStore(({ money }) => {
                             if (money >= 100) {
-                                towers.push({
-                                    pos,
-                                    fireRate: 0.4,
-                                    recharge: 0,
-                                });
+                                towers.push(selectedTower(pos));
                                 return {money: money - 100};
                             }
                             return {};
