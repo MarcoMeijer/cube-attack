@@ -24,6 +24,7 @@ export class Enemy {
         this.color = new Color(0.4, 0.4, 2.3);
         this.children = [];
         this.traveled = 0;
+        this.frozenTime = 0;
     }
 
     damage(amount) {
@@ -94,6 +95,15 @@ export function EnemyPool() {
             pos.copy(newPos);
             enemy.section = newSection;
             enemy.traveled += speed*delta;
+            
+            // unfreeze
+            if (enemy.frozenTime !== 0) {
+                enemy.frozenTime -= delta;
+                if (enemy.frozenTime < 0) {
+                    enemy.frozenTime = 0;
+                    enemy.speed *= 2;
+                }
+            }
 
             // apply changes to dummy and to the instanced matrix
             dummy.position.copy(pos);

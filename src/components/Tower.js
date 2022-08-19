@@ -57,6 +57,39 @@ export const Castle = (pos) => {
     return tower;
 }
 
+export const FreezeTower = (pos) => {
+    const tower = {
+        pos,
+        type: 1,
+        fireRate: 0.5,
+        recharge: 0,
+    };
+
+    tower.onTick = (store, delta) => {
+        const { enemies } = store;
+
+        const { fireRate } = tower;
+        tower.recharge += delta;
+
+        while (tower.recharge > fireRate) {
+            const radius = 4;
+            const targets = enemies.filter((enemy) => enemy.futureHealth > 0
+                && tower.pos.clone().sub(enemy.pos).length() < radius
+            );
+
+            for (const target of targets) {
+                if (target.frozenTime === 0) {
+                    target.speed /= 2;
+                }
+                target.frozenTime = 1;
+            }
+            tower.recharge -= fireRate;
+        }
+    }
+
+    return tower;
+}
+
 export const AreaTower = (pos) => {
     const tower = {
         pos,
