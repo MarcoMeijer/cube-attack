@@ -13,6 +13,7 @@ export const Castle = (pos) => {
         type: 0,
         fireRate: 0.4,
         recharge: 0,
+        timer: 0,
     };
 
     tower.onTick = (store, delta) => {
@@ -63,6 +64,7 @@ export const FreezeTower = (pos) => {
         type: 1,
         fireRate: 0.5,
         recharge: 0,
+        timer: 0,
     };
 
     tower.onTick = (store, delta) => {
@@ -96,6 +98,7 @@ export const AreaTower = (pos) => {
         type: 2,
         fireRate: 0.7,
         recharge: 0,
+        timer: 0,
     };
 
     tower.onTick = (store, delta) => {
@@ -130,6 +133,11 @@ export const TowerPool = () => {
     const dummy = useMemo(() => new Object3D(), []);
 
     useFrame((state, delta) => {
+        // animation
+        towers.forEach((tower) => {
+            tower.timer += delta;
+        });
+
         for (let i=0; i<3; i++) {
             let j = 0;
             towers.forEach((tower) => {
@@ -138,6 +146,12 @@ export const TowerPool = () => {
 
                     // apply changes to dummy and to the instanced matrix
                     dummy.position.copy(tower.pos);
+                    if (tower.timer < 0.5) {
+                        const x = tower.timer*2;
+                        dummy.scale.copy(new Vector3(1,1,1).multiplyScalar(Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * 1) + 1))
+                    } else {
+                        dummy.scale.copy(new Vector3(1,1,1));
+                    }
                     dummy.updateMatrix();
                     mesh[i].current.setMatrixAt(j, dummy.matrix);
                     j++;
