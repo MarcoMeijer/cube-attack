@@ -5,7 +5,6 @@ import { DirectionalLight, DirectionalLightHelper, SpotLightHelper } from "three
 
 export const Light = () => {
     const light = useRef();
-    useHelper(light, DirectionalLightHelper, 'cyan');
     const { scene } = useThree();
 
     useEffect(() => {
