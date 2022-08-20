@@ -10,6 +10,7 @@ import { Floor } from './components/Floor';
 import { Wave } from './components/Wave';
 import { Hud } from './components/html/Hud';
 import { initialState, StoreContext } from './hooks/useStore';
+import { Light } from './components/Light';
 
 const App = () => {
     const [state, setState] = useState({...initialState});
@@ -33,7 +34,7 @@ const App = () => {
 
     return (
         <StoreContext.Provider value={{current: state}}>
-            <Canvas mode="concurrent" camera={{ position: [8.5, 10, 20]}}>
+            <Canvas camera={{ position: [8.5, 10, 20]}} shadows>
                 <StoreContext.Provider value={{current: state}}>
                     <Floor />
                     <fog color="#b8bfbe" attach="fog" near={100} far={200} />
@@ -44,8 +45,7 @@ const App = () => {
                     <OrbitControls enablePan={false} target-x={8.5} target-z={8.5}/>
                     <Stars radius={100} depth={50} count={5000} factor={8} saturation={1} fade speed={2} />
                     <Effects />
-                    <ambientLight intensity={0.8}/>
-                    <directionalLight position={[10,18,6]} target-position={[0,0,0]} intensity={1.2} />
+                    <Light />
                     <Environment background={true} files="/Milkyway_small.hdr" />
                 </StoreContext.Provider>
             </Canvas>

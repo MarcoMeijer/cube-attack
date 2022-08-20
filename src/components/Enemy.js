@@ -53,7 +53,7 @@ export const EnemyOne = (parent) => {
 export const EnemyTwo = (parent) => {
     const enemy = new Enemy(parent);
     enemy.scale = new Vector3(0.65, 0.65, 0.65);
-    enemy.color = new Color(0.3, 2, 0.3);
+    enemy.color = new Color(0.4, 2.2, 0.4);
     enemy.children.push(EnemyOne);
     enemy.speed = 2;
     return enemy;
